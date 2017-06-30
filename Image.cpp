@@ -21,9 +21,9 @@ int Image::getY()
 void Image::loadIm(std::ifstream &fin)
 {
 	int i, j, k, a[3];
-	for(i = 0; i < sizeI[0]; i++)
+	for(j = 0; j < getY(); j++)
 	{
-		for(j = sizeI[1] - 1; j >= 0; j--)
+		for(i = 0; i < getX(); i++)
 		{
 			for(k = 0; k < 3; k++)
 			{
@@ -45,13 +45,11 @@ void Image::drawLine(int x1, int y1, int x2, int y2)
 	const int signX = x1 < x2 ? 1 : -1;
 	const int signY = y1 < y2 ? 1 : -1;
 	int error = deltaX - deltaY;
-	//cout << "point8" << x2 << " " << y2  << endl;
 	drawPoint(x2, y2, 0);
 	
 	while(x1 != x2 || y1 != y2)
 	{
 		drawPoint(x1, y1, 0);
-		cout << x1 << " " << y1 << endl;
 		int error2 = error*2;
 		if (error2 > -deltaY)
 		{
@@ -71,9 +69,9 @@ void Image::showFile(std::string fl)
 	int i, j, k;
 	fout.open(fl.c_str());
 	fout << "P3" << endl;
-	fout << sizeI[0] << " " << sizeI[1] << endl;
-	for(i = 0; i < sizeI[0]; i++)
-		for(j = sizeI[1] - 1; j >= 0; j--)
+	fout << getX() << " " << getY() << endl;
+	for(j = 0 ; j < getY(); j++)
+		for(i = 0; i < getX(); i++)
 			for(k = 0; k < 3; k++)
 				fout << image[i][j][k] << endl;
 	fout.close();
