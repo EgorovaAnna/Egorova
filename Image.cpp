@@ -45,13 +45,13 @@ void Image::drawLine(int x1, int y1, int x2, int y2)
 	const int signX = x1 < x2 ? 1 : -1;
 	const int signY = y1 < y2 ? 1 : -1;
 	int error = deltaX - deltaY;
-	cout << "point8" << x2 << " " << y2  << endl;
+	//cout << "point8" << x2 << " " << y2  << endl;
 	drawPoint(x2, y2, 0);
 	
 	while(x1 != x2 || y1 != y2)
 	{
 		drawPoint(x1, y1, 0);
-		cout << "point10" << x1 << " " << y1 << endl;
+		cout << x1 << " " << y1 << endl;
 		int error2 = error*2;
 		if (error2 > -deltaY)
 		{
