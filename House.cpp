@@ -18,15 +18,14 @@ void House::swapPosition()
 		}
 	}
 }
-void House::draw(Image &map)
+void House::draw(Image &map, int nh)
 {
 	int i;
 	for(i = 0; i < num_corners - 1; i++)
 	{
-		cout << "point7" << endl;
-		map.drawLine(corInt[i][0], corInt[i][1], corInt[i + 1][0], corInt[i + 1][1]);
+		map.drawLine(corInt[i][0], corInt[i][1], corInt[i + 1][0], corInt[i + 1][1], nh);
 	}
-	map.drawLine(corInt[num_corners - 1][0], corInt[num_corners - 1][1], corInt[0][0], corInt[0][1]);
+	map.drawLine(corInt[num_corners - 1][0], corInt[num_corners - 1][1], corInt[0][0], corInt[0][1], nh);
 }
 void House::addCorner(Position pos[4], Position tp)
 {
@@ -44,3 +43,77 @@ void House::addCorner(Position pos[4], Position tp)
 	cor[1] = floor((tp[1] - y0)*616/(y1-y0));
 	corInt.push_back(cor);
 }
+int House::getLeft()
+{
+	int i, j = 0;
+	for(i = 0; i < num_corners; i++)
+		if(corInt[i][0] < corInt[j][0])
+			j = i;
+	return corInt[j][0];
+}
+int House::getRight()
+{
+	int i, j = 0;
+	for(i = 0; i < num_corners; i++)
+		if(corInt[i][0] > corInt[j][0])
+			j = i;
+	return corInt[j][0];
+}
+int House::getUpper()
+{
+	int i, j = 0;
+	for(i = 0; i < num_corners; i++)
+		if(corInt[i][1] > corInt[j][1])
+			j = i;
+	return corInt[j][1];
+}
+int House::getLower()
+{
+	int i, j = 0;
+	for(i = 0; i < num_corners; i++)
+		if(corInt[i][1] < corInt[j][1])
+			j = i;
+	return corInt[j][1];
+}
+void House::paint(Image &map, int nh)
+{
+	int i, j, k, count = 0, x1, x2;
+	for(i = 0; i < num_corners; i++)
+		cout << corInt[i][0] <<  " " << corInt[i][1] << " " << endl;
+	cout << getLeft() << " " << getRight() << " " << getLower() << " " << getUpper() << " " << endl;
+	for(j = getLower(); j < getUpper(); j++)
+	{
+		for(i = 1 + getLeft(); i < getRight(); i++)
+		{
+			if(map.getTag(i, j) == nh)
+			{
+				if (count == 0)
+				{
+					x1 = i;
+					count++;
+				}
+				else if ((i != x1 + 1)&&(x2 == 0))
+				{
+					x2 = i;
+					count++;
+				}
+				if (i == x1 + 1)
+				{
+					x1++;
+				}
+			}
+		}
+		if (count == 2)
+			for(k = x1 + 1; k < x2; k++)
+				map.drawPoint(k, j, 0, nh);
+		count = 0;
+		x1 = 0;
+		x2 = 0;
+	}
+}
+
+
+
+
+
+

@@ -60,7 +60,8 @@ void Map::show()
 	for(l = 0; l < houses.size(); l++)
 	{
 		//cout << "point6" << endl;
-		houses[l] -> draw(*map);
+		houses[l] -> draw(*map, l + 1);
+		houses[l] -> paint(*map, l + 1);
 		//map -> drawLine(100, 100, 200, 200);
 	}
 	map -> showFile("mapShow.pnm");

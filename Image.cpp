@@ -18,6 +18,10 @@ int Image::getY()
 {
 	return sizeI[1];
 }
+int Image::getTag(int x, int y)
+{
+	return image[x][y].getTag();
+}
 void Image::loadIm(std::ifstream &fin)
 {
 	int i, j, k, a[3];
@@ -33,23 +37,26 @@ void Image::loadIm(std::ifstream &fin)
 		}
 	}
 }
-void Image::drawPoint(int x, int y, int color)
+void Image::drawPoint(int x, int y, int color, int nh)
 {
 	if((x < getX())&&(y < getY()))
+	{
 		image[x][y] = color;
+		image[x][y].whatHouse(nh);
+	}
 }
-void Image::drawLine(int x1, int y1, int x2, int y2)
+void Image::drawLine(int x1, int y1, int x2, int y2, int nh)
 {
 	const int deltaX = abs(x2 - x1);
 	const int deltaY = abs(y2 - y1);
 	const int signX = x1 < x2 ? 1 : -1;
 	const int signY = y1 < y2 ? 1 : -1;
 	int error = deltaX - deltaY;
-	drawPoint(x2, y2, 0);
+	drawPoint(x2, y2, 0, nh);
 	
 	while(x1 != x2 || y1 != y2)
 	{
-		drawPoint(x1, y1, 0);
+		drawPoint(x1, y1, 0, nh);
 		int error2 = error*2;
 		if (error2 > -deltaY)
 		{
@@ -70,7 +77,7 @@ void Image::showFile(std::string fl)
 	fout.open(fl.c_str());
 	fout << "P3" << endl;
 	fout << getX() << " " << getY() << endl;
-	for(j = 0 ; j < getY(); j++)
+	for(j = 0; j < getY(); j++)
 		for(i = 0; i < getX(); i++)
 			for(k = 0; k < 3; k++)
 				fout << image[i][j][k] << endl;
