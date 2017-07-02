@@ -15,6 +15,13 @@ float Position::operator[](int bin)
 	else
 		return -1;
 }
+int Position::isInMap(Position posmin, Position posmax)
+{
+	if((lattitude >= posmin[0])&&(lattitude <= posmax[0])&&(longitude <= posmax[1])&&(longitude >= posmin[1]))
+		return 1;
+	else
+		return -1;
+}
 Position::Position()
 {
 	lattitude = 0;

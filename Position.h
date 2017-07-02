@@ -15,6 +15,7 @@ class Position
 public:
 	void add(float tlat, float tlon);
 	float operator[](int bin);
+	int isInMap(Position posmin, Position posmax);
 	Position();
 };
 

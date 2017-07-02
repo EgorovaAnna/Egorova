@@ -15,6 +15,10 @@ public:
 	void addHouse(House *h);
 	void loadMap(string fl);
 	void loadFile(string fl);
+	void loadOsm(string fl);
+	float stringToFloat(string buf);
+	void searchNode(string fl, int node, Position &tp);
+	int stringToNode(string buf);
 	void show();
 	~Map();
 };
