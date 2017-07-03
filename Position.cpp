@@ -1,26 +1,33 @@
 #include "Position.h"
 
 
-void Position::add(float tlat, float tlon)
+void Position::add(double tlon, double tlat)
 {
 	lattitude = tlat;
 	longitude = tlon;
 }
-float Position::operator[](int bin)
+double Position::operator[](int bin)
 {
-	if (bin == 0) 
+	if (bin == 1) 
 		return lattitude;
-	if (bin == 1)
+	if (bin == 0)
 		return longitude;
 	else
 		return -1;
 }
 int Position::isInMap(Position posmin, Position posmax)
 {
-	if((lattitude >= posmin[0])&&(lattitude <= posmax[0])&&(longitude <= posmax[1])&&(longitude >= posmin[1]))
+	if((lattitude >= posmin[1])&&(lattitude <= posmax[1])&&(longitude <= posmax[0])&&(longitude >= posmin[0]))
 		return 1;
 	else
 		return -1;
+}
+bool Position::operator==(Position p2)
+{
+	if((lattitude == p2[1])&&(longitude == p2[0]))
+		return true;
+	else
+		return false;
 }
 Position::Position()
 {

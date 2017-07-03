@@ -10,11 +10,12 @@
 
 class Position
 {
-	float lattitude;
-	float longitude;
+	double lattitude;
+	double longitude;
 public:
-	void add(float tlat, float tlon);
-	float operator[](int bin);
+	void add(double tlat, double tlon);
+	double operator[](int bin);
+	bool operator==(Position p2);
 	int isInMap(Position posmin, Position posmax);
 	Position();
 };

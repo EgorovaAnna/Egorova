@@ -12,11 +12,12 @@ void Map::addHouse(House *h)
 void Map::loadMap(string fl)
 {
 	ifstream fin(fl.c_str());
+	int a = 0;
 	string buf;
 	fin >> buf;
-	while (buf != "950")
+	while (!(isdigit(buf[0])&&isdigit(buf[1])))
 		fin >> buf;
-	size[0] = 950;
+	size[0] = 100*(int)(buf[0] - '0') + 10*(int)(buf[1] - '0') + (int)(buf[2] - '0');
 	fin >> size[1];
 	map = new Image(size);
 	map -> loadIm(fin);
@@ -25,7 +26,7 @@ void Map::loadMap(string fl)
 void Map::loadFile(string fl)
 {
 	ifstream fin(fl.c_str());
-	float x0, x1, y0, y1, x, y;
+	double x0, x1, y0, y1, x, y;
 	int i, j, k;
 	Position tp;
 	string buf;
@@ -55,20 +56,24 @@ void Map::loadFile(string fl)
 void Map::loadOsm(string fl)
 {
 	ifstream fin(fl.c_str());
-	float x0, x1, y0, y1;
+	double x0, x1, y0, y1;
 	int i, j, node, stop = 0;
 	Position tp;
 	string buf;
 	while (buf != "<bounds")
 		fin >> buf;
 	fin >> buf;
-	x0 = stringToFloat(buf);
+	//x0 = stringToDouble(buf);
 	fin >> buf;
-	y0 = stringToFloat(buf);
+	//y0 = stringToDouble(buf);
 	fin >> buf;
-	x1 = stringToFloat(buf);
+	//x1 = stringToDouble(buf);
 	fin >> buf;
-	y1 = stringToFloat(buf);
+	//y1 = stringToDouble(buf);
+	y1 = 55.814005;
+	x0 = 37.4954;
+	y0 = 55.81117;
+	x1 = 37.50315;
 	pos[0].add(x0, y0);
 	pos[1].add(x1, y0);
 	pos[2].add(x0, y1);
@@ -105,17 +110,17 @@ void Map::loadOsm(string fl)
 	}
 	fin.close();
 }
-float Map::stringToFloat(string buf)
+double Map::stringToDouble(string buf)
 {
 	int i = 0, j = 1;
-	float fl = 0;
+	double fl = 0;
 	while (isdigit(buf[i]) != true)
 		i++;
 	while (isdigit(buf[i]) || buf[i] == '.')
 	{
 		if (buf[i] != '.')
 		{
-			fl = fl + (float)(buf[i] - '0')*100*(pow(10, -j));
+			fl = fl + (double)(buf[i] - '0')*100*(pow(10, -j));
 			j++;
 		}
 		i++;
@@ -146,7 +151,7 @@ void Map::searchNode(string fl, int node, Position &tp)
 {
 	ifstream fin2(fl.c_str());
 	string buf;
-	float x, y;
+	double x, y;
 	int i, stop = 0;
 	fin2 >> buf;
 	while(stop == 0)
@@ -159,10 +164,10 @@ void Map::searchNode(string fl, int node, Position &tp)
 			fin2 >> buf;
 			for (i = 0; i < 6; i++)
 				fin2 >> buf;
-			x = stringToFloat(buf);
+			y = stringToDouble(buf);
 			fin2 >> buf;
-			y = stringToFloat(buf);
-			tp. add(x, y);
+			x = stringToDouble(buf);
+			tp.add(x, y);
 			stop = 1;
 		}
 	}

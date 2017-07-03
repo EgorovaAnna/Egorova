@@ -29,19 +29,20 @@ void House::draw(Image &map, int nh)
 }
 void House::addCorner(Position pos[4], Position tp)
 {
-	num_corners++;
-	corners.push_back(tp);
-	float x0, x1, y0, y1;
-	int *cor = new int[2];
-	
-	x0 = pos[0][0];
-	y0 = pos[0][1];
-	x1 = pos[1][0];
-	y1 = pos[2][1];
-	//cout << "point" << x1 << " " << y1  << endl;
-	cor[0] = floor((tp[0] - x0)*950/(x1-x0));
-	cor[1] = floor((tp[1] - y0)*616/(y1-y0));
-	corInt.push_back(cor);
+	if((num_corners == 0)||!(corners[0] == tp))
+	{
+		num_corners++;
+		corners.push_back(tp);
+		float x0, x1, y0, y1;
+		int *cor = new int[2];
+		y0 = pos[0][1];
+		x0 = pos[0][0];
+		y1 = pos[3][1];
+		x1 = pos[3][0];
+		cor[0] = floor((tp[0] - x0)*732/(x1 - x0));
+		cor[1] = floor((tp[1] - y0)*488/(y1 - y0));
+		corInt.push_back(cor);
+	}
 }
 int House::getLeft()
 {
@@ -78,9 +79,6 @@ int House::getLower()
 void House::paint(Image &map, int nh)
 {
 	int i, j, k, count = 0, x1, x2;
-	for(i = 0; i < num_corners; i++)
-		cout << corInt[i][0] <<  " " << corInt[i][1] << " " << endl;
-	cout << getLeft() << " " << getRight() << " " << getLower() << " " << getUpper() << " " << endl;
 	for(j = getLower(); j < getUpper(); j++)
 	{
 		for(i = 1 + getLeft(); i < getRight(); i++)

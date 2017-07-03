@@ -25,14 +25,12 @@ int Image::getTag(int x, int y)
 void Image::loadIm(std::ifstream &fin)
 {
 	int i, j, k, a[3];
-	for(j = 0; j < getY(); j++)
+	for(j = getY() - 1; j >= 0; j--)
 	{
 		for(i = 0; i < getX(); i++)
 		{
 			for(k = 0; k < 3; k++)
-			{
 				fin >> a[k];
-			}
 			image[i][j].init(a);
 		}
 	}
@@ -77,7 +75,7 @@ void Image::showFile(std::string fl)
 	fout.open(fl.c_str());
 	fout << "P3" << endl;
 	fout << getX() << " " << getY() << endl;
-	for(j = 0; j < getY(); j++)
+	for(j = getY() - 1; j >= 0; j--)
 		for(i = 0; i < getX(); i++)
 			for(k = 0; k < 3; k++)
 				fout << image[i][j][k] << endl;

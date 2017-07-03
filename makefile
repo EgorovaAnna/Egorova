@@ -22,4 +22,4 @@ mmap.o: mmap.cpp
 	g++ -c mmap.cpp 
 	
 clear:
-	rm *.o *.gch
+	rm *.o *.gch mapShow.pnm prac
