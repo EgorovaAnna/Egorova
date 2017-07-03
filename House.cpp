@@ -18,16 +18,27 @@ void House::swapPosition()
 		}
 	}
 }
+void House::printAll()
+{
+	int i;
+	for(i = 0; i < num_corners; i++)
+	{
+		cout << corners[i][0] << " " << corners[i][1] << " " << corInt[i][0] << " " << corInt[i][0] << " " << endl;
+	}
+}
 void House::draw(Image &map, int nh)
 {
 	int i;
-	for(i = 0; i < num_corners - 1; i++)
+	if (num_corners != 1)
 	{
-		map.drawLine(corInt[i][0], corInt[i][1], corInt[i + 1][0], corInt[i + 1][1], nh);
+		for(i = 0; i < num_corners - 1; i++)
+		{
+			map.drawLine(corInt[i][0], corInt[i][1], corInt[i + 1][0], corInt[i + 1][1], nh);
+		}
+		map.drawLine(corInt[num_corners - 1][0], corInt[num_corners - 1][1], corInt[0][0], corInt[0][1], nh);
 	}
-	map.drawLine(corInt[num_corners - 1][0], corInt[num_corners - 1][1], corInt[0][0], corInt[0][1], nh);
 }
-void House::addCorner(Position pos[4], Position tp)
+void House::addCorner(Position pos[2], Position tp)
 {
 	if((num_corners == 0)||!(corners[0] == tp))
 	{
@@ -37,8 +48,8 @@ void House::addCorner(Position pos[4], Position tp)
 		int *cor = new int[2];
 		y0 = pos[0][1];
 		x0 = pos[0][0];
-		y1 = pos[3][1];
-		x1 = pos[3][0];
+		y1 = pos[1][1];
+		x1 = pos[1][0];
 		cor[0] = floor((tp[0] - x0)*732/(x1 - x0));
 		cor[1] = floor((tp[1] - y0)*488/(y1 - y0));
 		corInt.push_back(cor);

@@ -16,11 +16,12 @@ public:
 	House();
 	void swapPosition();
 	void draw(Image &map, int nh);
-	void addCorner(Position pos[4], Position tp);
+	void addCorner(Position pos[2], Position tp);
 	int getLeft();
 	int getRight();
 	int getUpper();
 	int getLower();
+	void printAll();
 	void paint(Image &map, int nh);
 };
 #endif

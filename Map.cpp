@@ -33,9 +33,7 @@ void Map::loadFile(string fl)
 	fin >> size[0] >> size[1];
 	fin >> x0 >> y0 >> x1 >> y1;
 	pos[0].add(x0, y0);
-	pos[1].add(x1, y0);
-	pos[2].add(x0, y1);
-	pos[3].add(x1, y1);
+	pos[1].add(x1, y1);
 	//while(fin != eof)
 	//{
 	//	fin >> buf;
@@ -56,8 +54,9 @@ void Map::loadFile(string fl)
 void Map::loadOsm(string fl)
 {
 	ifstream fin(fl.c_str());
-	double x0, x1, y0, y1;
-	int i, j, node, stop = 0;
+	double x0, x1, y0, y1, count;
+	int i, j, stop = 0;
+	long int node; 
 	Position tp;
 	string buf;
 	while (buf != "<bounds")
@@ -75,9 +74,8 @@ void Map::loadOsm(string fl)
 	y0 = 55.81117;
 	x1 = 37.50315;
 	pos[0].add(x0, y0);
-	pos[1].add(x1, y0);
-	pos[2].add(x0, y1);
-	pos[3].add(x1, y1);
+	pos[1].add(x1, y1);
+	//cout << x0 << " " << y0 << " " << x1 << " " << y1 << endl;
 	while(buf != "<way")
 		fin >> buf;
 	while(buf != "<relation")
@@ -93,9 +91,11 @@ void Map::loadOsm(string fl)
 					fin >> buf;
 					node = stringToNode(buf);
 					searchNode(fl, node, tp);
-					if(tp.isInMap(pos[0], pos[3]) == 1)
+					if(tp.isInMap(pos[0], pos[1]) == 1)
 					{
 						houses.back() -> addCorner(pos, tp);
+						//if (houses.size() == 10)
+						//	cout << houses.size() << " " << node << endl;
 					}
 					else
 					{
@@ -127,27 +127,33 @@ double Map::stringToDouble(string buf)
 	}
 	return fl;
 }
-int Map::stringToNode(string buf)
+long int Map::stringToNode(string buf)
 {
 	int i = 0, j = 0, count = 0;
-	int node = 0;
+	long int node = 0;
 	while (isdigit(buf[i]) != true)
 		i++;
 	if (buf.size() > 1)
 	{
 		while (isdigit(buf[i]))
 		{
-			node = node + (int)(buf[i] - '0')*100000000*(pow(10, -j));
-			j++;
+			if (count == 0)
+				j = i;
 			i++;
 			count++;
 		}
+		while (isdigit(buf[j]))
+		{
+			node = node + (int)(buf[j] - '0')*(pow(10, count - 1));
+			j++;
+			count--;
+		}
 	}
-	if (count == 0)
+	if (j == 0)
 		node = -1;
 	return node;
 }
-void Map::searchNode(string fl, int node, Position &tp)
+void Map::searchNode(string fl, long int node, Position &tp)
 {
 	ifstream fin2(fl.c_str());
 	string buf;
@@ -178,7 +184,11 @@ void Map::show()
 	int l;
 	for(l = 0; l < houses.size(); l++)
 	{
-		houses[l] -> draw(*map, l + 1);
+		//if(l == 10)
+		//{
+			houses[l] -> draw(*map, l + 1);
+			//houses[l] -> printAll();
+		//}
 		//houses[l] -> paint(*map, l + 1);
 	}
 	map -> showFile("mapShow.pnm");
