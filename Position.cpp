@@ -34,3 +34,8 @@ Position::Position()
 	lattitude = 0;
 	longitude = 0;
 }
+Position::Position(double tlon, double tlat)
+{
+	lattitude = tlat;
+	longitude = tlon;
+}

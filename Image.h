@@ -19,6 +19,7 @@ public:
 	int getY();
 	int getTag(int x, int y);
 	void loadIm(std::ifstream &fin);
+	void paintAll(int color);
 	void drawPoint(int x1, int x2, int color, int nh);
 	void drawLine(int x1, int x2, int y1, int y2, int nh);
 	void showFile(std::string fl);

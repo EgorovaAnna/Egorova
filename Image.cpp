@@ -10,6 +10,13 @@ Image::Image(int *tsize)
 	for(i = 0; i < sizeI[0]; i++)
 		image[i] = new Point [sizeI[1]];
 }
+void Image::paintAll(int color)
+{
+	int i, j, k;
+	for(j = getY() - 1; j >= 0; j--)
+		for(i = 0; i < getX(); i++)
+			image[i][j] = color;
+}
 int Image::getX()
 {
 	return sizeI[0];
@@ -50,21 +57,39 @@ void Image::drawLine(int x1, int y1, int x2, int y2, int nh)
 	const int signX = x1 < x2 ? 1 : -1;
 	const int signY = y1 < y2 ? 1 : -1;
 	int error = deltaX - deltaY;
-	drawPoint(x2, y2, 0, nh);
-	
-	while(x1 != x2 || y1 != y2)
+	int i;
+	if (x1 == x2||y1 == y2)
 	{
-		drawPoint(x1, y1, 0, nh);
-		int error2 = error*2;
-		if (error2 > -deltaY)
+		if (x1 == x2)
 		{
-			error -= deltaY;
-			x1 += signX;
+			for (i = y1; i!= y2; i = i + signY)
+				drawPoint(x1, i, 0, nh);
 		}
-		if (error2 < deltaX)
+		if(y1 == y2)
 		{
-			error += deltaX;
-			y1 += signY;
+			for (i = x1; i!= x2; i = i + signX)
+				drawPoint(i, y1, 0, nh);
+		}
+	}
+	else
+	{
+		
+		drawPoint(x2, y2, 0, nh);
+		
+		while(x1 != x2 || y1 != y2)
+		{
+			drawPoint(x1, y1, 0, nh);
+			int error2 = error*2;
+			if (error2 > -deltaY)
+			{
+				error -= deltaY;
+				x1 += signX;
+			}
+			if (error2 < deltaX)
+			{
+				error += deltaX;
+				y1 += signY;
+			}
 		}
 	}
 }
@@ -73,13 +98,12 @@ void Image::showFile(std::string fl)
 	ofstream fout;
 	int i, j, k;
 	fout.open(fl.c_str());
-	fout << "P3" << endl;
-	fout << getX() << " " << getY() << endl;
+	fout << "P3" << '\n';
+	fout << getX() << " " << getY() << '\n';
 	for(j = getY() - 1; j >= 0; j--)
 		for(i = 0; i < getX(); i++)
 			for(k = 0; k < 3; k++)
-				fout << image[i][j][k] << endl;
-	fout.close();
+				fout << image[i][j][k] << '\n';
 }
 
 

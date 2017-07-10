@@ -14,9 +14,13 @@ class House
 	vector<int*> corInt;
 public:
 	House();
+	House(Position tp, int posInt[2]);
 	void swapPosition();
 	void draw(Image &map, int nh);
-	void addCorner(Position pos[2], Position tp);
+	void drawOnPhoto(Image &photo, int nh);
+	void addCorner(Position pos[2], Position tp, int size[2]);
+	int getPosInt(int bin);
+	Position getPos();
 	int getLeft();
 	int getRight();
 	int getUpper();

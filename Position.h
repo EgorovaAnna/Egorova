@@ -17,6 +17,7 @@ public:
 	double operator[](int bin);
 	bool operator==(Position p2);
 	int isInMap(Position posmin, Position posmax);
+	Position(double tlat, double tlon);
 	Position();
 };
 
